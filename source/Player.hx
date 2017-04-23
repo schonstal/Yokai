@@ -35,7 +35,7 @@ class Player extends Enemy
 
   var elapsed:Float = 0;
   var combo:Bool = false;
-  var lastAttack:String = "attack 1";
+  var lastAttack:String = "attackOne";
 
   public function new(X:Float=0,Y:Float=0) {
     super();
@@ -44,8 +44,9 @@ class Player extends Enemy
     loadGraphic("assets/images/player/player.png", true, 32, 32);
 
     animation.add("fall", [0], 15, true);
-    animation.add("attack 1", [5, 6, 7, 8, 9], 20, false);
-    animation.add("attack 2", [10, 11, 12, 13, 13, 14], 20, false);
+    animation.add("attackOne", [5, 6, 7, 8, 9], 20, false);
+    animation.add("attackTwo", [10, 11, 12, 13, 13, 14], 20, false);
+    animation.add("uppercut", [15], 20, false);
     animation.play("fall");
 
     width = 12;
@@ -65,6 +66,8 @@ class Player extends Enemy
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
+
+    FlxG.timeScale = 0.1;
   }
 
   public function init():Void {
@@ -146,9 +149,9 @@ class Player extends Enemy
       return;
     }
 
-    var attackName:String = "attack 1";
+    var attackName:String = "attackOne";
     if (combo) {
-      attackName = (lastAttack == "attack 1" ? "attack 2" : "attack 1");
+      attackName = (lastAttack == "attackOne" ? "attackTwo" : "attackOne");
     }
 
     attack(attackName);

@@ -13,6 +13,54 @@ class AttackSprite extends FlxSprite {
 
   var hitList:Array<FlxObject>;
 
+  var currentHitbox:Dynamic;
+  var attackHitboxes:Dynamic = {
+    "attackOne": {
+      left: {
+        x: -2,
+        offsetX: 0
+      },
+      right: {
+        x: 4,
+        offsetX: 15
+      },
+      y: -9,
+      offsetY: 0,
+      width: 46,
+      height: 28,
+    },
+
+    "attackTwo": {
+      left: {
+        x: 0,
+        offsetX: 12
+      },
+      right: {
+        x: 0,
+        offsetX: 15
+      },
+      y: 0,
+      offsetY: 0,
+      width: 40,
+      height: 36
+    },
+
+    "uppercut": {
+      left: {
+        x: 0,
+        offsetX: 0
+      },
+      right: {
+        x: 0,
+        offsetX: 15
+      },
+      y: 0,
+      offsetY: 0,
+      width: 46,
+      height: 28
+    }
+  };
+
   public var isAttacking(get, null):Bool;
   public function get_isAttacking():Bool {
     return attacking;
@@ -22,8 +70,9 @@ class AttackSprite extends FlxSprite {
     super();
 
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
-    animation.add("attack 1", [0, 1, 2, 3, 4], 20, false);
-    animation.add("attack 2", [5, 6, 7, 8, 9], 20, false);
+    animation.add("attackOne", [0, 1, 2, 3, 4], 20, false);
+    animation.add("attackTwo", [5, 6, 7, 8, 9], 20, false);
+    animation.add("uppercut", [10], 20, false);
     animation.finishCallback = onAnimationComplete;
     visible = false;
     attacking = false;
@@ -36,10 +85,22 @@ class AttackSprite extends FlxSprite {
   }
 
   public function attack(name) {
+    currentHitbox = Reflect.field(attackHitboxes, name);
+
+    width = currentHitbox.width;
+    height = currentHitbox.height;
+    offset.y = currentHitbox.offsetY;
+
+    if (facing == FlxObject.LEFT) {
+      offset.x = currentHitbox.left.offsetX;
+    } else {
+      offset.x = currentHitbox.right.offsetX;
+    }
+
     animation.play(name, true);
     visible = true;
     attacking = true;
-    FlxG.sound.play("assets/sounds/player/attack1.ogg");
+    //FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
   }
@@ -52,7 +113,7 @@ class AttackSprite extends FlxSprite {
   }
 
   private function onAnimationComplete(animation:String):Void {
-    visible = false;
+    //visible = false;
     attacking = false;
     solid = false;
   }
@@ -60,13 +121,21 @@ class AttackSprite extends FlxSprite {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    updatePosition();
+  }
+
+  private function updatePosition():Void {
+    if (currentHitbox == null) return;
 
     if (facing == FlxObject.LEFT) {
       x = Reg.player.x - 36;
+      x += currentHitbox.left.x;
     } else {
       x = Reg.player.x;
+      x += currentHitbox.right.x;
     }
 
     y = Reg.player.y;
+    y += currentHitbox.y;
   }
 }
