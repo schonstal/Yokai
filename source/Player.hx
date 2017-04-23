@@ -42,7 +42,7 @@ class Player extends Enemy
     loadGraphic("assets/images/player/player.png", true, 32, 32);
 
     animation.add("idle", [0], 15, true);
-    animation.add("attack 1", [4], 15, true);
+    animation.add("attack 1", [5, 6, 7, 8, 9], 20, false);
     animation.add("attack 2", [8], 15, true);
 
     animation.add("attack start", [0], 15, true);
