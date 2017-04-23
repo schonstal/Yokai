@@ -19,7 +19,7 @@ class Player extends Enemy
   inline static var ATTACK_DISPLACEMENT:Float = 25;
   inline static var RUN_SPEED:Float = 200;
 
-  public static var gravity:Float = 800;
+  public static var gravity:Float = 0;
 
   public var justHurt:Bool = false;
 
@@ -48,11 +48,11 @@ class Player extends Enemy
     animation.add("attack 2", [10, 11, 12, 13, 13, 14], 20, false);
     animation.play("fall");
 
-    width = 5;
-    height = 8;
+    width = 12;
+    height = 18;
 
-    offset.y = 1;
-    offset.x = 3;
+    offset.y = 9;
+    offset.x = 11;
 
     speed = new Point();
     speed.y = attackAmount;
@@ -137,13 +137,8 @@ class Player extends Enemy
 
     animation.play(attackName, true);
 
-    attackSprite.attack(attackName);
     attackSprite.facing = facing;
-    if (facing == FlxObject.LEFT) {
-      attackSprite.offset.x = 36;
-    } else {
-      attackSprite.offset.x = 0;
-    }
+    attackSprite.attack(attackName);
   }
 
   private function tryAttacking():Void {
@@ -175,9 +170,11 @@ class Player extends Enemy
       if (pressed("right") && !attackSprite.isAttacking) {
         acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
         facing = FlxObject.LEFT;
+        offset.x = 7;
       } else if (pressed("left") && !attackSprite.isAttacking) {
         acceleration.x = speed.x * (velocity.x < 0 ? 4 : 1);
         facing = FlxObject.RIGHT;
+        offset.x = 11;
       } else if (Math.abs(velocity.x) < 10) {
         velocity.x = 0;
         acceleration.x = 0;
@@ -214,9 +211,6 @@ class Player extends Enemy
     }
 
     super.update(elapsed);
-
-    attackSprite.x = x;
-    attackSprite.y = y;
   }
 
   public override function kill():Void {

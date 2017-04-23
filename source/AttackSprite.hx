@@ -56,4 +56,17 @@ class AttackSprite extends FlxSprite {
     attacking = false;
     solid = false;
   }
+
+  public override function update(elapsed:Float):Void {
+    super.update(elapsed);
+
+
+    if (facing == FlxObject.LEFT) {
+      x = Reg.player.x - 36;
+    } else {
+      x = Reg.player.x;
+    }
+
+    y = Reg.player.y;
+  }
 }

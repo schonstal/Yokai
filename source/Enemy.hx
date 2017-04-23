@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.math.FlxPoint;
+import flixel.FlxObject;
 
 import flash.geom.ColorTransform;
 
@@ -89,4 +90,52 @@ class Enemy extends FlxSprite {
 
   public function onStart():Void {
   };
+
+  public function adjustHitbox():Void {
+    if (FlxG.keys.justPressed.Q) {
+      facing = FlxObject.LEFT;
+    }
+
+    if (FlxG.keys.justPressed.E) {
+      facing = FlxObject.RIGHT;
+    }
+
+    if (FlxG.keys.justPressed.LEFT) {
+      offset.x += 1;
+    }
+
+    if (FlxG.keys.justPressed.RIGHT) {
+      offset.x -= 1;
+    }
+
+    if (FlxG.keys.justPressed.UP) {
+      offset.y += 1;
+    }
+
+    if (FlxG.keys.justPressed.DOWN) {
+      offset.y -= 1;
+    }
+
+    if (FlxG.keys.justPressed.W) {
+      height += 1;
+    }
+
+    if (FlxG.keys.justPressed.S) {
+      height -= 1;
+    }
+
+    if (FlxG.keys.justPressed.A) {
+      width -= 1;
+    }
+
+    if (FlxG.keys.justPressed.D) {
+      width += 1;
+    }
+
+    FlxG.log.notice("width: " + width);
+    FlxG.log.notice("height: " + height);
+    FlxG.log.notice("offset.x: " + offset.x);
+    FlxG.log.notice("offset.y: " + offset.y);
+    return;
+  }
 }
