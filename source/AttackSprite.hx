@@ -13,7 +13,7 @@ class AttackSprite extends FlxSprite {
     super();
 
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
-    animation.add("slash", [0], 15, true);
+    animation.add("slash", [0, 1, 2, 3, 4], 15, false);
     visible = false;
 
     setFacingFlip(FlxObject.LEFT, true, false);
