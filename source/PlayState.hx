@@ -38,7 +38,7 @@ class PlayState extends FlxState {
     initializeServices();
 
     enemyGroup = new FlxSpriteGroup();
-    var e = new BatEnemy();
+    var e = new BatEnemy(100, 100);
     enemyGroup.add(e);
 
     var background = new FlxSprite();

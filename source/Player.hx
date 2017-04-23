@@ -11,9 +11,14 @@ import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxTimer;
 import flixel.util.FlxSpriteUtil;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+
 class Player extends Enemy
 {
-  public static var RUN_SPEED:Float = 200;
+  inline static var ATTACK_DISPLACEMENT:Float = 50;
+  inline static var RUN_SPEED:Float = 200;
+
   public static var gravity:Float = 800;
 
   public var justHurt:Bool = false;
@@ -27,9 +32,6 @@ class Player extends Enemy
   var attackAmount:Float = 200;
   var attackTimer:Float = 0;
   var attackThreshold:Float = 0.125;
-
-  var canAttackTimer:Float = 0;
-  var canAttackThreshold:Float = 0.23;
 
   var elapsed:Float = 0;
 
@@ -120,12 +122,26 @@ class Player extends Enemy
     return attackPressed;
   }
 
-  private function attack():Void {
-    if (!canAttack()) return;
-    canAttackTimer = canAttackThreshold;
+  private function attack(attack):Void {
+    var attackAnimation = animation.getByName(attack);
+    var duration = attackAnimation.delay * attackAnimation.numFrames;
+
+    FlxTween.tween(this,
+      { x: (facing == FlxObject.LEFT ? x - ATTACK_DISPLACEMENT : x + ATTACK_DISPLACEMENT) },
+      duration,
+      { ease: FlxEase.quartOut }
+    );
 
     animation.play("attack 1");
-    velocity.y = -speed.y;
+  }
+
+  private function tryAttacking():Void {
+    if (!isAttackPressed() || attackSprite.isAttacking) {
+      return;
+    }
+
+    attack("attack 1");
+
     attackPressed = false;
     FlxG.camera.flash(0x33ffccff, 0.1);
 
@@ -138,57 +154,35 @@ class Player extends Enemy
     }
   }
 
-  private function canAttack():Bool {
-    return canAttackTimer <= 0;
-  }
-
-  private function tryAttacking():Void {
-    if (isAttackPressed()) attack();
-
-    if (velocity.y < -1) {
-      if (velocity.y > -50) {
-        animation.play("attack peak");
-      }
-    } else if (velocity.y > 1) {
-      if (velocity.y > 100) {
-        animation.play("attack fall");
-      }
-    }
-
-    if (!pressed("attack") && velocity.y < 0)
-      acceleration.y = gravity * 3;
-    else
-      acceleration.y = gravity;
-  }
-
   private function handleMovement():Void {
-    if (pressed("right") && canAttack()) {
-      acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
-      facing = FlxObject.LEFT;
-    } else if (pressed("left") && canAttack()) {
-      acceleration.x = speed.x * (velocity.x < 0 ? 4 : 1);
-      facing = FlxObject.RIGHT;
-    } else if (Math.abs(velocity.x) < 10) {
-      velocity.x = 0;
-      acceleration.x = 0;
-    } else if (velocity.x > 0) {
-      acceleration.x = -speed.x * 2;
-    } else if (velocity.x < 0) {
-      acceleration.x = speed.x * 2;
+    if (attackSprite.isAttacking) {
+      acceleration.y =
+        velocity.y =
+        acceleration.x =
+        velocity.x = 0;
+    } else {
+      acceleration.y = gravity;
+
+      if (pressed("right") && !attackSprite.isAttacking) {
+        acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
+        facing = FlxObject.LEFT;
+      } else if (pressed("left") && !attackSprite.isAttacking) {
+        acceleration.x = speed.x * (velocity.x < 0 ? 4 : 1);
+        facing = FlxObject.RIGHT;
+      } else if (Math.abs(velocity.x) < 10) {
+        velocity.x = 0;
+        acceleration.x = 0;
+      } else if (velocity.x > 0) {
+        acceleration.x = -speed.x * 2;
+      } else if (velocity.x < 0) {
+        acceleration.x = speed.x * 2;
+      }
     }
 
     if (x < 0) x = 0;
     if (x > FlxG.width - width) x = FlxG.width - width;
     if (y < 0) y = 0;
     if (y > FlxG.height - height) y = FlxG.height - height;
-
-    if (velocity.y < 0) {
-      acceleration.x = 0;
-      velocity.x = facing == FlxObject.LEFT ? -100 : 100;
-      drag.x = 100;
-    } else {
-      drag.x = 0;
-    }
   }
 
   private function computeTerminalVelocity():Void {
@@ -208,7 +202,6 @@ class Player extends Enemy
       handleMovement();
       tryAttacking();
       computeTerminalVelocity();
-      updateTimers();
     }
 
     super.update(elapsed);
@@ -225,10 +218,6 @@ class Player extends Enemy
     exists = false;
     acceleration.y = acceleration.x = velocity.x = velocity.y = 0;
     Reg.enemyExplosionService.explode(x + width/2, y + height/2 + explosionOffset.y, 0, 0, true);
-  }
-
-  private function updateTimers():Void {
-    canAttackTimer -= elapsed;
   }
 
   private function justPressed(action:String):Bool {
