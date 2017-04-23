@@ -39,6 +39,8 @@ class Enemy extends FlxSprite {
 
     Reg.pointService.showPoints(x + width/2, y + height/2, Std.int(damage));
 
+    FlxG.camera.shake(0.005, 0.2);
+
     super.hurt(damage);
     flash();
   }

@@ -11,6 +11,8 @@ class AttackSprite extends FlxSprite {
   var attacking:Bool = false;
   var attackTimer:FlxTimer;
 
+  var hitList:Array<FlxObject>;
+
   public var isAttacking(get, null):Bool;
   public function get_isAttacking():Bool {
     return attacking;
@@ -25,6 +27,9 @@ class AttackSprite extends FlxSprite {
     animation.finishCallback = onAnimationComplete;
     visible = false;
     attacking = false;
+    solid = false;
+
+    hitList = [];
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
@@ -35,10 +40,20 @@ class AttackSprite extends FlxSprite {
     visible = true;
     attacking = true;
     FlxG.sound.play("assets/sounds/player/attack1.ogg");
+    solid = true;
+    hitList.splice(0, hitList.length);
+  }
+
+  public function collideWith(object:FlxObject) {
+    if (hitList.indexOf(object) < 0) {
+      object.hurt(10);
+      hitList.push(object);
+    }
   }
 
   private function onAnimationComplete(animation:String):Void {
     visible = false;
     attacking = false;
+    solid = false;
   }
 }

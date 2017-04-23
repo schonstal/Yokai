@@ -42,19 +42,6 @@ class BatEnemy extends Enemy
     sinOffset = 0;
   }
 
-  public override function hurt(damage:Float):Void {
-    if (justHurt) return;
-
-    FlxG.camera.shake(0.005, 0.2);
-
-    justHurt = true;
-    FlxSpriteUtil.flicker(this, 0.6, 0.04, true, true, function(flicker) {
-      justHurt = false;
-    });
-
-    super.hurt(damage);
-  }
-
   override public function update(elapsed:Float):Void {
     sinAmt += elapsed;
     sinOffset = Math.sin(sinAmt + sinMod) * 30;
