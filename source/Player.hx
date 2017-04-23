@@ -226,10 +226,10 @@ class Player extends Enemy
              FlxG.keys.pressed.UP || FlxG.keys.pressed.SPACE;
     }
     if (action == (FlxG.save.data.invertControls ? "left" : "right")) {
-      return FlxG.keys.pressed.LEFT || FlxG.keys.justPressed.A;
+      return FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A;
     }
     if (action == (FlxG.save.data.invertControls ? "right" : "left")) {
-      return FlxG.keys.pressed.RIGHT || FlxG.keys.justPressed.D;
+      return FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D;
     }
     if (action == "direction") {
       return pressed("left") || justPressed("right");
