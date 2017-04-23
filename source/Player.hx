@@ -23,13 +23,13 @@ class Player extends Enemy
   var speed:Point;
   var terminalVelocity:Float = 150;
 
-  var jumpPressed:Bool = false;
-  var jumpAmount:Float = 300;
-  var jumpTimer:Float = 0;
-  var jumpThreshold:Float = 0.075;
+  var attackPressed:Bool = false;
+  var attackAmount:Float = 300;
+  var attackTimer:Float = 0;
+  var attackThreshold:Float = 0.075;
 
-  var canJumpTimer:Float = 0;
-  var canJumpThreshold:Float = 0.23;
+  var canAttackTimer:Float = 0;
+  var canAttackThreshold:Float = 0.23;
 
   var elapsed:Float = 0;
 
@@ -39,9 +39,9 @@ class Player extends Enemy
     y = Y;
     loadGraphic("assets/images/player/player.png", true, 32, 32);
 
-    animation.add("jump start", [0], 15, true);
-    animation.add("jump peak", [0], 15, true);
-    animation.add("jump fall", [0], 15, true);
+    animation.add("attack start", [0], 15, true);
+    animation.add("attack peak", [0], 15, true);
+    animation.add("attack fall", [0], 15, true);
 
     width = 5;
     height = 8;
@@ -50,7 +50,7 @@ class Player extends Enemy
     offset.x = 3;
 
     speed = new Point();
-    speed.y = jumpAmount;
+    speed.y = attackAmount;
     speed.x = 800;
     solid = false;
 
@@ -64,9 +64,9 @@ class Player extends Enemy
 
   public function init():Void {
     Reg.player = this;
-    jumpPressed = false;
+    attackPressed = false;
 
-    jumpTimer = 0;
+    attackTimer = 0;
 
     velocity.x = velocity.y = 0;
     acceleration.x = 0;
@@ -102,47 +102,47 @@ class Player extends Enemy
     super.hurt(damage);
   }
 
-  private function isJumpPressed():Bool {
-    //Check for jump input, allow for early timing
-    jumpTimer += elapsed;
-    if(justPressed("jump")) {
-      jumpPressed = true;
-      jumpTimer = 0;
+  private function isAttackPressed():Bool {
+    //Check for attack input, allow for early timing
+    attackTimer += elapsed;
+    if(justPressed("attack")) {
+      attackPressed = true;
+      attackTimer = 0;
     }
-    if(jumpTimer > jumpThreshold) {
-      jumpPressed = false;
+    if(attackTimer > attackThreshold) {
+      attackPressed = false;
     }
 
-    return jumpPressed;
+    return attackPressed;
   }
 
-  private function jump():Void {
-    if(!canJump()) return;
-    animation.play("jump start");
+  private function attack():Void {
+    if(!canAttack()) return;
+    animation.play("attack start");
     velocity.y = -speed.y;
-    jumpPressed = false;
+    attackPressed = false;
     FlxG.camera.flash(0x33ffccff, 0.1);
-    canJumpTimer = canJumpThreshold;
+    canAttackTimer = canAttackThreshold;
   }
 
-  private function canJump():Bool {
-    return canJumpTimer <= 0;
+  private function canAttack():Bool {
+    return canAttackTimer <= 0;
   }
 
-  private function tryJumping():Void {
-    if(isJumpPressed()) jump();
+  private function tryAttacking():Void {
+    if(isAttackPressed()) attack();
 
     if(velocity.y < -1) {
       if(velocity.y > -50) {
-        animation.play("jump peak");
+        animation.play("attack peak");
       }
     } else if (velocity.y > 1) {
       if(velocity.y > 100) {
-        animation.play("jump fall");
+        animation.play("attack fall");
       }
     }
 
-    if(!pressed("jump") && velocity.y < 0)
+    if(!pressed("attack") && velocity.y < 0)
       acceleration.y = gravity * 3;
     else
       acceleration.y = gravity;
@@ -192,13 +192,13 @@ class Player extends Enemy
   override public function update(elapsed:Float):Void {
     this.elapsed = elapsed;
 
-    if(!Reg.started && (justPressed("left") || justPressed("right") || justPressed("jump"))) {
+    if(!Reg.started && (justPressed("left") || justPressed("right") || justPressed("attack"))) {
       start();
     }
 
     if(alive && Reg.started) {
       handleMovement();
-      tryJumping();
+      tryAttacking();
       computeTerminalVelocity();
       updateTimers();
     }
@@ -220,11 +220,11 @@ class Player extends Enemy
   }
 
   private function updateTimers():Void {
-    canJumpTimer -= elapsed;
+    canAttackTimer -= elapsed;
   }
 
   private function justPressed(action:String):Bool {
-    if (action == "jump") {
+    if (action == "attack") {
       return FlxG.keys.justPressed.S || FlxG.keys.justPressed.DOWN || FlxG.keys.justPressed.W ||
              FlxG.keys.justPressed.UP || FlxG.keys.justPressed.SPACE;
     }
@@ -237,14 +237,11 @@ class Player extends Enemy
     if (action == "direction") {
       return justPressed("left") || justPressed("right");
     }
-    if (action == "attack") {
-      return FlxG.keys.justPressed.SPACE;
-    }
     return false;
   }
 
   private function pressed(action:String):Bool {
-    if (action == "jump") {
+    if (action == "attack") {
       return FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN || FlxG.keys.pressed.W ||
              FlxG.keys.pressed.UP || FlxG.keys.pressed.SPACE;
     }
@@ -256,9 +253,6 @@ class Player extends Enemy
     }
     if (action == "direction") {
       return pressed("left") || pressed("right");
-    }
-    if (action == "attack") {
-      return FlxG.keys.pressed.SPACE;
     }
     return false;
   }
