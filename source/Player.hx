@@ -127,7 +127,7 @@ class Player extends Enemy
     animation.play("attack 1");
     velocity.y = -speed.y;
     attackPressed = false;
-    FlxG.camera.fade(0x11ffccff, 1);
+    FlxG.camera.flash(0x33ffccff, 0.1);
 
     attackSprite.attack("slash");
     attackSprite.facing = facing;
