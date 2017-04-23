@@ -16,7 +16,7 @@ import flixel.tweens.FlxEase;
 
 class Player extends Enemy
 {
-  inline static var ATTACK_DISPLACEMENT:Float = 50;
+  inline static var ATTACK_DISPLACEMENT:Float = 25;
   inline static var RUN_SPEED:Float = 200;
 
   public static var gravity:Float = 800;
@@ -41,13 +41,10 @@ class Player extends Enemy
     y = Y;
     loadGraphic("assets/images/player/player.png", true, 32, 32);
 
-    animation.add("idle", [0], 15, true);
+    animation.add("fall", [0], 15, true);
     animation.add("attack 1", [5, 6, 7, 8, 9], 20, false);
     animation.add("attack 2", [8], 15, true);
-
-    animation.add("attack start", [0], 15, true);
-    animation.add("attack peak", [0], 15, true);
-    animation.add("attack fall", [0], 15, true);
+    animation.play("fall");
 
     width = 5;
     height = 8;
@@ -132,7 +129,7 @@ class Player extends Enemy
       { ease: FlxEase.quartOut }
     );
 
-    animation.play("attack 1");
+    animation.play(attack, true);
   }
 
   private function tryAttacking():Void {
@@ -161,6 +158,7 @@ class Player extends Enemy
         acceleration.x =
         velocity.x = 0;
     } else {
+      animation.play("fall");
       acceleration.y = gravity;
 
       if (pressed("right") && !attackSprite.isAttacking) {
