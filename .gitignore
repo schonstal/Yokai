@@ -8,3 +8,4 @@
 *.swo
 Thumbs.db
 project.xml.hxml
+.*Project.xml
