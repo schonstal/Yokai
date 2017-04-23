@@ -117,7 +117,7 @@ class PlayState extends FlxState {
 
   private function collideEnemiesWithProjectiles() {
     FlxG.overlap(enemyGroup, player.attackSprite, function(enemy:FlxObject, projectile:FlxObject):Void {
-      enemy.hurt(1);
+      enemy.hurt(10);
     });
 
     FlxG.overlap(enemyGroup, playerProjectileGroup, function(enemy:FlxObject, projectile:FlxObject):Void {

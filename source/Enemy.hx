@@ -26,7 +26,7 @@ class Enemy extends FlxSprite {
 
   public function new() {
     super();
-    health = 5;
+    health = 30;
     points = 50;
     flashTimer = new FlxTimer();
     explosionTimer = new FlxTimer();
@@ -37,6 +37,8 @@ class Enemy extends FlxSprite {
   public override function hurt(damage:Float):Void {
     if (!alive) return;
 
+    Reg.pointService.showPoints(x + width/2, y + height/2, Std.int(damage));
+
     super.hurt(damage);
     flash();
   }
@@ -45,10 +47,6 @@ class Enemy extends FlxSprite {
     setColorTransform();
     color = 0xff8c4a53;
     alive = false;
-
-    if (Reg.combo < 10) Reg.combo++;
-    Reg.score += points * Reg.combo;
-    Reg.pointService.showPoints(x + width/2, y + height/2, points * Reg.combo);
 
     blowUp();
     die();
