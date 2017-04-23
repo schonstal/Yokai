@@ -13,9 +13,7 @@ import flixel.math.FlxPoint;
 
 class PlayState extends FlxState {
   var playerProjectileGroup:FlxSpriteGroup;
-
   var enemyProjectileGroup:FlxSpriteGroup;
-
   var enemyGroup:FlxSpriteGroup;
   var enemyExplosionGroup:FlxSpriteGroup;
 
@@ -24,21 +22,22 @@ class PlayState extends FlxState {
 
   var player:Player;
 
-  var gameOver:Bool = false;
-
   var level:Room;
   var hud:HUD;
+
+  var gameOver:Bool = false;
 
   override public function create():Void {
     super.create();
     FlxG.timeScale = 1;
-    FlxG.camera.flash(0xffffffff, 1);
 
     Reg.random = new FlxRandom();
     Reg.difficulty = 0;
     Reg.score = 0;
 
     initializeServices();
+
+    enemyGroup = new FlxSpriteGroup();
 
     var background = new FlxSprite();
     background.loadGraphic("assets/images/background.png");
@@ -82,9 +81,6 @@ class PlayState extends FlxState {
   }
 
   private function initializeServices() {
-    enemyGroup = new FlxSpriteGroup();
-    Reg.enemyGroup = enemyGroup;
-
     enemyExplosionGroup = new FlxSpriteGroup();
     Reg.enemyExplosionService = new EnemyExplosionService(enemyExplosionGroup);
 
