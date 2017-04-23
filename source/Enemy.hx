@@ -39,7 +39,6 @@ class Enemy extends FlxSprite {
 
     super.hurt(damage);
     flash();
-    FlxG.sound.play("assets/sounds/enemyHurt.wav", 0.7 * FlxG.save.data.sfxVolume);
   }
 
   public override function kill():Void {
@@ -53,7 +52,6 @@ class Enemy extends FlxSprite {
 
     blowUp();
     die();
-    FlxG.sound.play("assets/sounds/enemyDie.wav", 1 * FlxG.save.data.sfxVolume);
   }
 
   function blowUp():Void {
