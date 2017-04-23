@@ -18,8 +18,10 @@ class Player extends Enemy
 
   public var justHurt:Bool = false;
 
+  public var attackSprite:AttackSprite;
+
   var speed:Point;
-  var terminalVelocity:Float = 200;
+  var terminalVelocity:Float = 150;
 
   var jumpPressed:Bool = false;
   var jumpAmount:Float = 300;
@@ -53,6 +55,8 @@ class Player extends Enemy
     solid = false;
 
     maxVelocity.x = RUN_SPEED;
+
+    attackSprite = new AttackSprite();
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
@@ -145,6 +149,11 @@ class Player extends Enemy
   }
 
   private function handleMovement():Void {
+    if(justPressed("attack")) {
+      attackSprite.attack('slash');
+      return;
+    }
+
     if(pressed("right")) {
       acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
       facing = FlxObject.LEFT;
@@ -164,6 +173,14 @@ class Player extends Enemy
     if (x > FlxG.width - width) x = FlxG.width - width;
     if (y < 0) y = 0;
     if (y > FlxG.height - height) y = FlxG.height - height;
+
+    if (velocity.y < 0) {
+      acceleration.x = 0;
+      velocity.x = 100;
+      drag.x = 100;
+    } else {
+      drag.x = 0;
+    }
   }
 
   private function computeTerminalVelocity():Void {
@@ -187,6 +204,9 @@ class Player extends Enemy
     }
 
     super.update(elapsed);
+
+    attackSprite.x = x;
+    attackSprite.y = y;
   }
 
   public override function kill():Void {
@@ -217,6 +237,9 @@ class Player extends Enemy
     if (action == "direction") {
       return justPressed("left") || justPressed("right");
     }
+    if (action == "attack") {
+      return FlxG.keys.justPressed.SPACE;
+    }
     return false;
   }
 
@@ -232,7 +255,10 @@ class Player extends Enemy
       return FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D;
     }
     if (action == "direction") {
-      return pressed("left") || justPressed("right");
+      return pressed("left") || pressed("right");
+    }
+    if (action == "attack") {
+      return FlxG.keys.pressed.SPACE;
     }
     return false;
   }

@@ -50,6 +50,7 @@ class PlayState extends FlxState {
 
     add(background);
     add(player);
+    add(player.attackSprite);
     add(enemyGroup);
     add(playerProjectileGroup);
     add(enemyProjectileGroup);

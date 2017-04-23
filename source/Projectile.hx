@@ -54,7 +54,7 @@ class Projectile extends FlxSpriteGroup
 
     initialize(X, Y, direction, facing);
   }
-  
+
   public function initialize(X:Float, Y:Float, direction:FlxVector, facing:Int):Void {
     x = X;
     y = Y;
