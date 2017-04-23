@@ -38,6 +38,10 @@ class PlayState extends FlxState {
     initializeServices();
 
     enemyGroup = new FlxSpriteGroup();
+    var e = new Enemy();
+    e.x = e.y = 100;
+    e.loadGraphic("assets/images/player/player.png", true, 32, 32);
+    enemyGroup.add(e);
 
     var background = new FlxSprite();
     background.loadGraphic("assets/images/background.png");
@@ -114,6 +118,10 @@ class PlayState extends FlxState {
   }
 
   private function collideEnemiesWithProjectiles() {
+    FlxG.overlap(enemyGroup, player.attackSprite, function(enemy:FlxObject, projectile:FlxObject):Void {
+      enemy.hurt(1);
+    });
+
     FlxG.overlap(enemyGroup, playerProjectileGroup, function(enemy:FlxObject, projectile:FlxObject):Void {
       if (enemy.alive) Projectile.handleCollision(enemy, projectile);
       enemy.hurt(1);
