@@ -35,11 +35,11 @@ class Player extends Enemy
     super();
     x = X;
     y = Y;
-    loadGraphic("assets/images/player/player.png", true, 12, 12);
+    loadGraphic("assets/images/player/player.png", true, 32, 32);
 
     animation.add("jump start", [0], 15, true);
-    animation.add("jump peak", [1], 15, true);
-    animation.add("jump fall", [2], 15, true);
+    animation.add("jump peak", [0], 15, true);
+    animation.add("jump fall", [0], 15, true);
 
     width = 5;
     height = 8;
