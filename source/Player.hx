@@ -34,6 +34,8 @@ class Player extends Enemy
   var attackThreshold:Float = 0.125;
 
   var elapsed:Float = 0;
+  var combo:Bool = false;
+  var lastAttack:String = "attack 1";
 
   public function new(X:Float=0,Y:Float=0) {
     super();
@@ -43,7 +45,7 @@ class Player extends Enemy
 
     animation.add("fall", [0], 15, true);
     animation.add("attack 1", [5, 6, 7, 8, 9], 20, false);
-    animation.add("attack 2", [8], 15, true);
+    animation.add("attack 2", [10, 11, 12, 13, 13, 14], 20, false);
     animation.play("fall");
 
     width = 5;
@@ -93,7 +95,6 @@ class Player extends Enemy
   public override function hurt(damage:Float):Void {
     if (justHurt && damage < 100) return;
 
-    FlxG.camera.flash(0xccff1472, 0.5, null, true);
     FlxG.camera.shake(0.005, 0.2);
     Reg.combo = 0;
 
@@ -111,6 +112,11 @@ class Player extends Enemy
     if (justPressed("attack")) {
       attackPressed = true;
       attackTimer = 0;
+      if (attackSprite.isAttacking) {
+        combo = true;
+      } else {
+        combo = false;
+      }
     }
     if (attackTimer > attackThreshold) {
       attackPressed = false;
@@ -119,8 +125,8 @@ class Player extends Enemy
     return attackPressed;
   }
 
-  private function attack(attack):Void {
-    var attackAnimation = animation.getByName(attack);
+  private function attack(attackName):Void {
+    var attackAnimation = animation.getByName(attackName);
     var duration = attackAnimation.delay * attackAnimation.numFrames;
 
     FlxTween.tween(this,
@@ -129,7 +135,15 @@ class Player extends Enemy
       { ease: FlxEase.quartOut }
     );
 
-    animation.play(attack, true);
+    animation.play(attackName, true);
+
+    attackSprite.attack(attackName);
+    attackSprite.facing = facing;
+    if (facing == FlxObject.LEFT) {
+      attackSprite.offset.x = 36;
+    } else {
+      attackSprite.offset.x = 0;
+    }
   }
 
   private function tryAttacking():Void {
@@ -137,18 +151,15 @@ class Player extends Enemy
       return;
     }
 
-    attack("attack 1");
+    var attackName:String = "attack 1";
+    if (combo) {
+      attackName = (lastAttack == "attack 1" ? "attack 2" : "attack 1");
+    }
+
+    attack(attackName);
+    lastAttack = attackName;
 
     attackPressed = false;
-    FlxG.camera.flash(0x33ffccff, 0.1);
-
-    attackSprite.attack("slash");
-    attackSprite.facing = facing;
-    if (facing == FlxObject.LEFT) {
-      attackSprite.offset.x = 36;
-    } else {
-      attackSprite.offset.x = 0;
-    }
   }
 
   private function handleMovement():Void {

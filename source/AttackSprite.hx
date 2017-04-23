@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
@@ -19,7 +20,8 @@ class AttackSprite extends FlxSprite {
     super();
 
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
-    animation.add("slash", [0, 1, 2, 3, 4], 20, false);
+    animation.add("attack 1", [0, 1, 2, 3, 4], 20, false);
+    animation.add("attack 2", [5, 6, 7, 8, 9], 20, false);
     animation.finishCallback = onAnimationComplete;
     visible = false;
     attacking = false;
@@ -32,6 +34,7 @@ class AttackSprite extends FlxSprite {
     animation.play(name, true);
     visible = true;
     attacking = true;
+    FlxG.sound.play("assets/sounds/player/attack1.ogg");
   }
 
   private function onAnimationComplete(animation:String):Void {
