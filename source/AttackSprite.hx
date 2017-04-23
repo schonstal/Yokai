@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 
@@ -11,9 +12,12 @@ class AttackSprite extends FlxSprite {
   public function new() {
     super();
 
-    loadGraphic("assets/images/player/attack.png", true, 32, 32);
+    loadGraphic("assets/images/player/smears.png", true, 64, 64);
     animation.add("slash", [0], 15, true);
     visible = false;
+
+    setFacingFlip(FlxObject.LEFT, true, false);
+    setFacingFlip(FlxObject.RIGHT, false, false);
   }
 
   public function attack(name) {

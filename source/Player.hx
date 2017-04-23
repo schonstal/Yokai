@@ -24,9 +24,9 @@ class Player extends Enemy
   var terminalVelocity:Float = 150;
 
   var attackPressed:Bool = false;
-  var attackAmount:Float = 300;
+  var attackAmount:Float = 200;
   var attackTimer:Float = 0;
-  var attackThreshold:Float = 0.075;
+  var attackThreshold:Float = 0.125;
 
   var canAttackTimer:Float = 0;
   var canAttackThreshold:Float = 0.23;
@@ -38,6 +38,10 @@ class Player extends Enemy
     x = X;
     y = Y;
     loadGraphic("assets/images/player/player.png", true, 32, 32);
+
+    animation.add("idle", [0], 15, true);
+    animation.add("attack 1", [4], 15, true);
+    animation.add("attack 2", [8], 15, true);
 
     animation.add("attack start", [0], 15, true);
     animation.add("attack peak", [0], 15, true);
@@ -88,7 +92,7 @@ class Player extends Enemy
   }
 
   public override function hurt(damage:Float):Void {
-    if(justHurt && damage < 100) return;
+    if (justHurt && damage < 100) return;
 
     FlxG.camera.flash(0xccff1472, 0.5, null, true);
     FlxG.camera.shake(0.005, 0.2);
@@ -105,11 +109,11 @@ class Player extends Enemy
   private function isAttackPressed():Bool {
     //Check for attack input, allow for early timing
     attackTimer += elapsed;
-    if(justPressed("attack")) {
+    if (justPressed("attack")) {
       attackPressed = true;
       attackTimer = 0;
     }
-    if(attackTimer > attackThreshold) {
+    if (attackTimer > attackThreshold) {
       attackPressed = false;
     }
 
@@ -117,12 +121,21 @@ class Player extends Enemy
   }
 
   private function attack():Void {
-    if(!canAttack()) return;
-    animation.play("attack start");
+    if (!canAttack()) return;
+    canAttackTimer = canAttackThreshold;
+
+    animation.play("attack 1");
     velocity.y = -speed.y;
     attackPressed = false;
-    FlxG.camera.flash(0x33ffccff, 0.1);
-    canAttackTimer = canAttackThreshold;
+    FlxG.camera.fade(0x11ffccff, 1);
+
+    attackSprite.attack("slash");
+    attackSprite.facing = facing;
+    if (facing == FlxObject.LEFT) {
+      attackSprite.offset.x = 36;
+    } else {
+      attackSprite.offset.x = 0;
+    }
   }
 
   private function canAttack():Bool {
@@ -130,34 +143,29 @@ class Player extends Enemy
   }
 
   private function tryAttacking():Void {
-    if(isAttackPressed()) attack();
+    if (isAttackPressed()) attack();
 
-    if(velocity.y < -1) {
-      if(velocity.y > -50) {
+    if (velocity.y < -1) {
+      if (velocity.y > -50) {
         animation.play("attack peak");
       }
     } else if (velocity.y > 1) {
-      if(velocity.y > 100) {
+      if (velocity.y > 100) {
         animation.play("attack fall");
       }
     }
 
-    if(!pressed("attack") && velocity.y < 0)
+    if (!pressed("attack") && velocity.y < 0)
       acceleration.y = gravity * 3;
     else
       acceleration.y = gravity;
   }
 
   private function handleMovement():Void {
-    if(justPressed("attack")) {
-      attackSprite.attack('slash');
-      return;
-    }
-
-    if(pressed("right")) {
+    if (pressed("right") && canAttack()) {
       acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
       facing = FlxObject.LEFT;
-    } else if(pressed("left")) {
+    } else if (pressed("left") && canAttack()) {
       acceleration.x = speed.x * (velocity.x < 0 ? 4 : 1);
       facing = FlxObject.RIGHT;
     } else if (Math.abs(velocity.x) < 10) {
@@ -176,7 +184,7 @@ class Player extends Enemy
 
     if (velocity.y < 0) {
       acceleration.x = 0;
-      velocity.x = 100;
+      velocity.x = facing == FlxObject.LEFT ? -100 : 100;
       drag.x = 100;
     } else {
       drag.x = 0;
@@ -184,7 +192,7 @@ class Player extends Enemy
   }
 
   private function computeTerminalVelocity():Void {
-    if(velocity.y > terminalVelocity) {
+    if (velocity.y > terminalVelocity) {
       velocity.y = terminalVelocity;
     }
   }
@@ -192,11 +200,11 @@ class Player extends Enemy
   override public function update(elapsed:Float):Void {
     this.elapsed = elapsed;
 
-    if(!Reg.started && (justPressed("left") || justPressed("right") || justPressed("attack"))) {
+    if (!Reg.started && (justPressed("left") || justPressed("right") || justPressed("attack"))) {
       start();
     }
 
-    if(alive && Reg.started) {
+    if (alive && Reg.started) {
       handleMovement();
       tryAttacking();
       computeTerminalVelocity();
