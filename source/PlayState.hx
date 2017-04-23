@@ -40,7 +40,9 @@ class PlayState extends FlxState {
     enemyGroup = new FlxSpriteGroup();
     var e = new Enemy();
     e.x = e.y = 100;
-    e.loadGraphic("assets/images/player/player.png", true, 32, 32);
+    e.loadGraphic("assets/images/enemies/bat.png", true, 22, 18);
+    e.animation.add("fly", [0,1,2,3,4,5], 15, true);
+    e.animation.play("fly");
     enemyGroup.add(e);
 
     var background = new FlxSprite();
