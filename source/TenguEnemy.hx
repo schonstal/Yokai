@@ -62,17 +62,17 @@ class TenguEnemy extends Enemy
   }
 
   override public function update(elapsed:Float):Void {
-    sinAmt += elapsed;
-    sinOffset = Math.sin(sinAmt + sinMod) * 30;
+    sinAmt += elapsed * 2;
+    sinOffset = Math.sin(sinAmt + sinMod) * 20;
 
-    velocity.x = sinOffset;
+    velocity.y = sinOffset;
 
-    if(velocity.x > 0) {
+    if(velocity.y > 0) {
       facing = FlxObject.RIGHT;
-      offset.x = 10;
+      offset.y = 10;
     } else {
       facing = FlxObject.LEFT;
-      offset.x = 11;
+      offset.y = 11;
     }
 
     super.update(elapsed);
