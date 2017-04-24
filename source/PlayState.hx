@@ -87,7 +87,7 @@ class PlayState extends FlxState {
     Reg.playerProjectileService = new ProjectileService(playerProjectileGroup);
 
     enemyProjectileGroup = new FlxSpriteGroup();
-    Reg.enemyProjectileService = new ProjectileService(enemyProjectileGroup, "enemy");
+    Reg.enemyProjectileService = new ProjectileService(enemyProjectileGroup);
 
     pointGroup = new FlxSpriteGroup();
     Reg.pointService = new PointService(pointGroup);
