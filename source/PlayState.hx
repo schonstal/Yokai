@@ -16,6 +16,7 @@ class PlayState extends FlxState {
   var enemyProjectileGroup:FlxSpriteGroup;
   var enemyGroup:FlxSpriteGroup;
   var enemyExplosionGroup:FlxSpriteGroup;
+  var tenguGroup:TenguGroup;
 
   var pointGroup:FlxSpriteGroup;
   var gameOverGroup:GameOverGroup;
@@ -36,9 +37,6 @@ class PlayState extends FlxState {
     Reg.score = 0;
 
     initializeServices();
-
-    enemyGroup = new FlxSpriteGroup();
-    enemyGroup.add(new TenguGroup());
 
     snow = new SnowBackground();
     background = new Background();
@@ -73,8 +71,11 @@ class PlayState extends FlxState {
 
   override public function update(elapsed:Float):Void {
     checkPlayerDeath();
+    Reg.spawnService.trySpawning();
 
     super.update(elapsed);
+
+    FlxG.worldBounds.set(-20, FlxG.camera.scroll.y - 20, FlxG.camera.width + 40, FlxG.camera.height + 40);
 
     collideEnemiesWithProjectiles();
     collidePlayerWithProjectiles();
@@ -94,6 +95,11 @@ class PlayState extends FlxState {
 
     pointGroup = new FlxSpriteGroup();
     Reg.pointService = new PointService(pointGroup);
+
+    enemyGroup = new FlxSpriteGroup();
+    tenguGroup = new TenguGroup();
+    enemyGroup.add(tenguGroup);
+    Reg.spawnService = new SpawnService(tenguGroup);
   }
 
   private function checkPlayerDeath() {

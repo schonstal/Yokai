@@ -34,6 +34,13 @@ class TenguEnemy extends Enemy
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
+
+    onDeath = function() {
+      Reg.player.health += 30;
+      if (Reg.player.health > 100) {
+        Reg.player.health = 100;
+      }
+    }
   }
 
   public override function hurt(damage:Float):Void {
@@ -41,7 +48,7 @@ class TenguEnemy extends Enemy
   }
 
   public function init():Void {
-    health = 30;
+    health = 50;
     sinAmt = 0;
     sinOffset = 0;
     sinMod = 0;

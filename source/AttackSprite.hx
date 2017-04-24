@@ -65,7 +65,7 @@ class AttackSprite extends FlxSprite {
       offsetY: 0,
       width: 46,
       height: 28,
-      damage: 25,
+      damage: 30,
       energy: 30
     }
   };
@@ -112,7 +112,7 @@ class AttackSprite extends FlxSprite {
     FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
-    Reg.player.stamina -= currentHitbox.energy;
+    Reg.player.health -= currentHitbox.energy;
   }
 
   public function collideWith(object:FlxObject) {

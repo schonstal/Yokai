@@ -17,10 +17,10 @@ import flixel.tweens.FlxEase;
 class Player extends Enemy
 {
   inline static var ATTACK_DISPLACEMENT:Float = 25;
-  inline static var UPPERCUT_DISPLACEMENT:Float = 150;
+  inline static var UPPERCUT_DISPLACEMENT:Float = 100;
   inline static var RUN_SPEED:Float = 200;
 
-  public static var gravity:Float = 200;
+  public static var gravity:Float = 400;
 
   public var justHurt:Bool = false;
 
@@ -29,7 +29,7 @@ class Player extends Enemy
   public var stamina:Float = 100;
 
   var speed:Point;
-  var terminalVelocity:Float = 150;
+  var terminalVelocity:Float = 200;
 
   var attackPressed:Bool = false;
   var shouldUppercut:Bool = false;

@@ -19,16 +19,13 @@ class TenguGroup extends FlxSpriteGroup {
 
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
-
-    if (FlxG.camera.scroll.y < lastCameraScroll) {
-      //trySpawningEnemies();
-    }
-
-    lastCameraScroll = FlxG.camera.scroll.y;
   }
 
-  private function trySpawningEnemies():Void {
+  public function spawn(X:Float, Y:Float):Void {
     var newEnemy = cast(recycle(TenguEnemy), TenguEnemy);
     newEnemy.init();
+    newEnemy.x = X;
+    newEnemy.y = Y;
+    add(newEnemy);
   }
 }
