@@ -65,8 +65,8 @@ class AttackSprite extends FlxSprite {
       offsetY: 0,
       width: 46,
       height: 28,
-      damage: 30,
-      energy: 30
+      damage: 15,
+      energy: 20
     }
   };
 
@@ -79,8 +79,8 @@ class AttackSprite extends FlxSprite {
     super();
 
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
-    animation.add("attackOne", [0, 1, 2, 3, 4], 15, false);
-    animation.add("attackTwo", [5, 6, 7, 8, 9], 15, false);
+    animation.add("attackOne", [0, 1, 2, 3, 4], 20, false);
+    animation.add("attackTwo", [5, 6, 7, 8, 9], 20, false);
     animation.add("uppercut", [10, 10, 10, 10], 10, false);
     animation.finishCallback = onAnimationComplete;
     visible = false;
@@ -112,7 +112,7 @@ class AttackSprite extends FlxSprite {
     FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
-    Reg.player.health -= currentHitbox.energy;
+    Reg.player.stamina -= currentHitbox.energy;
   }
 
   public function collideWith(object:FlxObject) {

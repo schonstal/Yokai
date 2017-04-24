@@ -34,6 +34,6 @@ class SpawnService {
   }
 
   private function spawnEnemy(y:Float):Void {
-    tenguGroup.spawn(Reg.random.float(40, FlxG.width - 40), y);
+    tenguGroup.spawn(Reg.random.float(0, FlxG.width - 30), y);
   }
 }

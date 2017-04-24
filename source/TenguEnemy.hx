@@ -24,10 +24,10 @@ class TenguEnemy extends Enemy
     super();
     x = X;
     y = Y;
-    loadGraphic("assets/images/enemies/tengu.png");//, true, 50, 50);
+    loadGraphic("assets/images/enemies/tengu.png", true, 48, 48);
 
-    //animation.add("fly", [0], 15, true);
-    //animation.play("fly");
+    animation.add("fly", [0, 1, 1, 2, 2, 3, 4, 5], 10, true);
+    animation.play("fly");
 
     width = 26;
     height = 26;
@@ -36,9 +36,9 @@ class TenguEnemy extends Enemy
     setFacingFlip(FlxObject.RIGHT, false, false);
 
     onDeath = function() {
-      Reg.player.health += 30;
-      if (Reg.player.health > 100) {
-        Reg.player.health = 100;
+      Reg.player.stamina += 50;
+      if (Reg.player.stamina > 100) {
+        Reg.player.stamina = 100;
       }
     }
   }
@@ -52,7 +52,7 @@ class TenguEnemy extends Enemy
     sinAmt = 0;
     sinOffset = 0;
     sinMod = 0;
-    //animation.play("fly");
+    animation.play("fly");
     exists = true;
     alive = true;
 
