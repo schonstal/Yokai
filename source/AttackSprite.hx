@@ -32,7 +32,7 @@ class AttackSprite extends FlxSprite {
       width: 46,
       height: 28,
       damage: 10,
-      energy: 5
+      energy: 3
     },
 
     "attackTwo": {
@@ -48,24 +48,24 @@ class AttackSprite extends FlxSprite {
       offsetY: 0,
       width: 40,
       height: 36,
-      damage: 15,
-      energy: 5
+      damage: 10,
+      energy: 3
     },
 
     "uppercut": {
       left: {
-        x: 0,
-        offsetX: 0
+        x: 19,
+        offsetX: 22
       },
       right: {
-        x: 0,
-        offsetX: 15
+        x: 9,
+        offsetX: 20
       },
-      y: -9,
+      y: -12,
       offsetY: 0,
-      width: 46,
+      width: 20,
       height: 28,
-      damage: 15,
+      damage: 20,
       energy: 20
     }
   };
@@ -77,11 +77,10 @@ class AttackSprite extends FlxSprite {
 
   public function new() {
     super();
-
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
     animation.add("attackOne", [0, 1, 2, 3, 4], 20, false);
     animation.add("attackTwo", [5, 6, 7, 8, 9], 20, false);
-    animation.add("uppercut", [10, 10, 10, 10], 10, false);
+    animation.add("uppercut", [10, 11, 12, 13, 14, 15], 20, false);
     animation.finishCallback = onAnimationComplete;
     visible = false;
     attacking = false;
