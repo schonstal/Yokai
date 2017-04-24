@@ -144,7 +144,7 @@ class Player extends Enemy
         this,
         { y: y - UPPERCUT_DISPLACEMENT },
         duration,
-        { ease: FlxEase.quadOut }
+        { ease: FlxEase.quartOut }
       );
     }
     FlxTween.tween(
