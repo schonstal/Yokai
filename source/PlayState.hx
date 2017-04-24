@@ -9,8 +9,6 @@ import flixel.math.FlxRandom;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.math.FlxPoint;
-import flixel.addons.display.FlxStarField.FlxStarField2D;
 
 class PlayState extends FlxState {
   var playerProjectileGroup:FlxSpriteGroup;
@@ -48,9 +46,8 @@ class PlayState extends FlxState {
     background.loadGraphic("assets/images/background/walls.png");
     background.y = FlxG.height - background.height;
 
-    var starField:FlxStarField2D = new FlxStarField2D(0, Std.int(background.y), FlxG.width, Std.int(background.height), 100);
-    starField.setStarSpeed(1, 80);
-    add(starField);
+    var snowBackground = new SnowBackground();
+    add(snowBackground);
 
     add(background);
 
