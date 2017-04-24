@@ -16,7 +16,6 @@ import flixel.tweens.FlxEase;
 
 class BatEnemy extends Enemy
 {
-  public var justHurt:Bool = false;
   private var sinAmt:Float = 0;
   private var sinOffset:Float = 0;
   private var sinMod:Float = 0;

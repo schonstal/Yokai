@@ -50,7 +50,8 @@ class ShootingEnemy extends Enemy {
     Reg.enemyProjectileService.shoot(
       x + 6,
       y + 6,
-      facing == FlxObject.RIGHT ? new FlxVector(1, 0) : new FlxVector(-1, 0)
+      facing == FlxObject.RIGHT ? new FlxVector(1, 0) : new FlxVector(-1, 0),
+      facing
     );
   }
 

@@ -118,12 +118,24 @@ class PlayState extends FlxState {
       player.attackSprite.collideWith(enemy);
     });
 
-    FlxG.overlap(enemyGroup, playerProjectileGroup, function(enemy:FlxObject, projectile:FlxObject):Void {
-      enemy.hurt(1);
+    FlxG.overlap(enemyGroup, enemyProjectileGroup, function(enemy:FlxObject, projectile:FlxObject):Void {
+      var p = cast(projectile, Projectile);
+      if (!p.reflected) return;
+
+      enemy.hurt(50);
+      player.attackSprite.onLandHit();
     });
   }
 
   private function collidePlayerWithProjectiles() {
+    FlxG.overlap(enemyProjectileGroup, player.attackSprite, function(projectile:FlxObject, attackSprite:FlxObject):Void {
+      var p = cast(projectile, Projectile);
+      if (p.reflected) return;
+
+      p.reflect(player.facing);
+      player.attackSprite.onLandHit();
+    });
+
     FlxG.overlap(player, enemyProjectileGroup, function(player:FlxObject, projectile:FlxObject):Void {
       if (!cast(projectile, Projectile).isDangerous()) return;
       if (cast(player, Player).justHurt) return;

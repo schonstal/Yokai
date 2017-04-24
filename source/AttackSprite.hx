@@ -118,8 +118,13 @@ class AttackSprite extends FlxSprite {
       }
       hitList.push(object);
 
-      stopTime();
+      onLandHit();
     }
+  }
+
+  public function onLandHit():Void {
+    FlxG.camera.shake(0.005, 0.2);
+    stopTime();
   }
 
   private function stopTime():Void {

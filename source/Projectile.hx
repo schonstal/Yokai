@@ -11,6 +11,8 @@ class Projectile extends FlxSprite {
   var dangerTimer:Float = 0;
   var dangerTime:Float = 0.04;
 
+  public var reflected:Bool = false;
+
   public function new() {
     super();
 
@@ -30,6 +32,7 @@ class Projectile extends FlxSprite {
     visible = true;
     facing = spawnFacing;
     exists = true;
+    reflected = false;
 
     dangerTimer = 0;
 
@@ -38,7 +41,19 @@ class Projectile extends FlxSprite {
   }
 
   public function isDangerous():Bool {
-    return dangerTimer >= dangerTime;
+    return !reflected && dangerTimer >= dangerTime;
+  }
+
+  public function reflect(heading:Int = FlxObject.LEFT):Void {
+    reflected = true;
+    facing = heading;
+    color = 0xff33ff33;
+
+    if (facing == FlxObject.LEFT) {
+      velocity.x = -SPEED * 2;
+    } else {
+      velocity.x = SPEED * 2;
+    }
   }
 
   override public function update(elapsed:Float):Void {
