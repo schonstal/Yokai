@@ -45,10 +45,10 @@ class PlayState extends FlxState {
     background.loadGraphic("assets/images/background.png");
 
     player = new Player();
-    player.init();
-
     hud = new HUD();
-    hud.exists = false;
+    gameOverGroup = new GameOverGroup();
+
+    player.init();
 
     add(background);
     add(player);
@@ -59,12 +59,8 @@ class PlayState extends FlxState {
     add(enemyExplosionGroup);
     add(pointGroup);
     add(hud);
-
-    gameOverGroup = new GameOverGroup();
-    gameOverGroup.exists = false;
     add(gameOverGroup);
 
-    //DEBUGGER
     FlxG.debugger.drawDebug = true;
   }
 

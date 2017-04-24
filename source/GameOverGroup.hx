@@ -12,6 +12,7 @@ class GameOverGroup extends FlxSpriteGroup {
 
   public function new():Void {
     super();
+    exists = false;
     gameOverSprite = new FlxSprite();
     gameOverSprite.loadGraphic("assets/images/gameOver.png");
     add(gameOverSprite);
