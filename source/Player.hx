@@ -226,6 +226,10 @@ class Player extends Enemy
       start();
     }
 
+    if (stamina <= 0) {
+      FlxSpriteUtil.flicker(this, 10, 0.04, true, false);
+    }
+
     if (alive && Reg.started) {
       handleMovement();
       tryAttacking();
@@ -233,10 +237,6 @@ class Player extends Enemy
     }
 
     super.update(elapsed);
-
-    if (stamina <= 0) {
-      FlxSpriteUtil.flicker(this, 10, 0.04, true, false);
-    }
   }
 
   public override function kill():Void {
