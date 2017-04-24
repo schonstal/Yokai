@@ -17,6 +17,7 @@ import flixel.tweens.FlxEase;
 class Player extends Enemy
 {
   inline static var ATTACK_DISPLACEMENT:Float = 25;
+  inline static var UPPERCUT_DISPLACEMENT:Float = 150;
   inline static var RUN_SPEED:Float = 200;
 
   public static var gravity:Float = 200;
@@ -29,6 +30,7 @@ class Player extends Enemy
   var terminalVelocity:Float = 150;
 
   var attackPressed:Bool = false;
+  var shouldUppercut:Bool = false;
   var attackAmount:Float = 200;
   var attackTimer:Float = 0;
   var attackThreshold:Float = 0.125;
@@ -112,6 +114,9 @@ class Player extends Enemy
     attackTimer += elapsed;
     if (justPressed("attack")) {
       attackPressed = true;
+      if (pressed("up")) {
+        shouldUppercut = true;
+      }
       attackTimer = 0;
       if (attackSprite.isAttacking) {
         combo = true;
@@ -120,6 +125,7 @@ class Player extends Enemy
       }
     }
     if (attackTimer > attackThreshold) {
+      shouldUppercut = false;
       attackPressed = false;
     }
 
@@ -127,10 +133,20 @@ class Player extends Enemy
   }
 
   private function attack(attackName):Void {
-    var attackAnimation = animation.getByName(attackName);
+    var attackAnimation = attackSprite.animation.getByName(attackName);
     var duration = attackAnimation.delay * attackAnimation.numFrames;
 
-    FlxTween.tween(this,
+    var tweenParams:Dynamic;
+    if (shouldUppercut) {
+      FlxTween.tween(
+        this,
+        { y: y - UPPERCUT_DISPLACEMENT },
+        duration,
+        { ease: FlxEase.quadOut }
+      );
+    }
+    FlxTween.tween(
+      this,
       { x: (facing == FlxObject.LEFT ? x - ATTACK_DISPLACEMENT : x + ATTACK_DISPLACEMENT) },
       duration,
       { ease: FlxEase.quartOut }
@@ -147,8 +163,8 @@ class Player extends Enemy
       return;
     }
 
-    var attackName:String = "attackOne";
-    if (combo) {
+    var attackName:String = shouldUppercut ? "uppercut" : "attackOne";
+    if (combo && !shouldUppercut) {
       attackName = (lastAttack == "attackOne" ? "attackTwo" : "attackOne");
     }
 
@@ -156,6 +172,7 @@ class Player extends Enemy
     lastAttack = attackName;
 
     attackPressed = false;
+    shouldUppercut = false;
   }
 
   private function handleMovement():Void {
@@ -168,11 +185,11 @@ class Player extends Enemy
       animation.play("fall");
       acceleration.y = gravity;
 
-      if (pressed("right") && !attackSprite.isAttacking) {
+      if (pressed("left") && !attackSprite.isAttacking) {
         acceleration.x = -speed.x * (velocity.x > 0 ? 4 : 1);
         facing = FlxObject.LEFT;
         offset.x = 7;
-      } else if (pressed("left") && !attackSprite.isAttacking) {
+      } else if (pressed("right") && !attackSprite.isAttacking) {
         acceleration.x = speed.x * (velocity.x < 0 ? 4 : 1);
         facing = FlxObject.RIGHT;
         offset.x = 11;
@@ -226,14 +243,16 @@ class Player extends Enemy
 
   private function justPressed(action:String):Bool {
     if (action == "attack") {
-      return FlxG.keys.justPressed.S || FlxG.keys.justPressed.DOWN || FlxG.keys.justPressed.W ||
-             FlxG.keys.justPressed.UP || FlxG.keys.justPressed.SPACE;
+      return FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.X;
     }
-    if (action == (FlxG.save.data.invertControls ? "left" : "right")) {
+    if (action == "left") {
       return FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A;
     }
-    if (action == (FlxG.save.data.invertControls ? "right" : "left")) {
+    if (action == "right") {
       return FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.D;
+    }
+    if (action == "up") {
+      return FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W;
     }
     if (action == "direction") {
       return justPressed("left") || justPressed("right");
@@ -243,14 +262,16 @@ class Player extends Enemy
 
   private function pressed(action:String):Bool {
     if (action == "attack") {
-      return FlxG.keys.pressed.S || FlxG.keys.pressed.DOWN || FlxG.keys.pressed.W ||
-             FlxG.keys.pressed.UP || FlxG.keys.pressed.SPACE;
+      return FlxG.keys.pressed.SPACE || FlxG.keys.pressed.X;
     }
-    if (action == (FlxG.save.data.invertControls ? "left" : "right")) {
+    if (action == "left") {
       return FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A;
     }
-    if (action == (FlxG.save.data.invertControls ? "right" : "left")) {
+    if (action == "right") {
       return FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D;
+    }
+    if (action == "up") {
+      return FlxG.keys.pressed.UP || FlxG.keys.pressed.W;
     }
     if (action == "direction") {
       return pressed("left") || pressed("right");

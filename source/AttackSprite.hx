@@ -75,7 +75,7 @@ class AttackSprite extends FlxSprite {
     loadGraphic("assets/images/player/smears.png", true, 64, 64);
     animation.add("attackOne", [0, 1, 2, 3, 4], 20, false);
     animation.add("attackTwo", [5, 6, 7, 8, 9], 20, false);
-    animation.add("uppercut", [10], 20, false);
+    animation.add("uppercut", [10, 10, 10, 10, 10], 10, false);
     animation.finishCallback = onAnimationComplete;
     visible = false;
     attacking = false;
