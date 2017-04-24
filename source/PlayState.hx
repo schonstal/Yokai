@@ -40,8 +40,8 @@ class PlayState extends FlxState {
     enemyGroup = new FlxSpriteGroup();
     var e = new BatEnemy(100, 100);
     enemyGroup.add(e);
-    e = new ShootingEnemy(200, 200);
-    enemyGroup.add(e);
+    var s = new ShootingEnemy(20, 200);
+    enemyGroup.add(s);
 
     var background = new FlxSprite();
     background.loadGraphic("assets/images/background.png");
@@ -119,16 +119,14 @@ class PlayState extends FlxState {
     });
 
     FlxG.overlap(enemyGroup, playerProjectileGroup, function(enemy:FlxObject, projectile:FlxObject):Void {
-      if (enemy.alive) Projectile.handleCollision(enemy, projectile);
       enemy.hurt(1);
     });
   }
 
   private function collidePlayerWithProjectiles() {
     FlxG.overlap(player, enemyProjectileGroup, function(player:FlxObject, projectile:FlxObject):Void {
-      if (!cast(projectile, ProjectileSprite).isDangerous()) return;
+      if (!cast(projectile, Projectile).isDangerous()) return;
       if (cast(player, Player).justHurt) return;
-      Projectile.handleCollision(player, projectile);
       player.hurt(25);
     });
   }
