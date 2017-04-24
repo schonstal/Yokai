@@ -244,7 +244,7 @@ class Player extends Enemy
 
   private function justPressed(action:String):Bool {
     if (action == "attack") {
-      return FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.X;
+      return FlxG.keys.justPressed.SPACE || FlxG.keys.justPressed.X || justPressed("up");
     }
     if (action == "left") {
       return FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.A;
@@ -263,7 +263,7 @@ class Player extends Enemy
 
   private function pressed(action:String):Bool {
     if (action == "attack") {
-      return FlxG.keys.pressed.SPACE || FlxG.keys.pressed.X;
+      return FlxG.keys.pressed.SPACE || FlxG.keys.pressed.X || pressed("up");
     }
     if (action == "left") {
       return FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A;
