@@ -19,7 +19,7 @@ class Player extends Enemy
   inline static var ATTACK_DISPLACEMENT:Float = 25;
   inline static var RUN_SPEED:Float = 200;
 
-  public static var gravity:Float = 0;
+  public static var gravity:Float = 200;
 
   public var justHurt:Bool = false;
 
@@ -66,8 +66,6 @@ class Player extends Enemy
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
-
-    FlxG.timeScale = 0.1;
   }
 
   public function init():Void {

@@ -11,6 +11,9 @@ import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxTimer;
 import flixel.util.FlxSpriteUtil;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+
 class BatEnemy extends Enemy
 {
   public var justHurt:Bool = false;
@@ -34,6 +37,10 @@ class BatEnemy extends Enemy
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
+  }
+
+  public override function hurt(damage:Float):Void {
+    super.hurt(damage);
   }
 
   public function init():Void {

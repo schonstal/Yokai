@@ -7,11 +7,14 @@ import flixel.util.FlxTimer;
 
 class AttackSprite extends FlxSprite {
   inline static var ATTACK_TIME = 0.2;
+  inline static var STOP_FRAMES = 5;
 
   var attacking:Bool = false;
   var attackTimer:FlxTimer;
 
   var hitList:Array<FlxObject>;
+
+  var timeFrames:Int = 0;
 
   var currentHitbox:Dynamic;
   var attackHitboxes:Dynamic = {
@@ -100,7 +103,7 @@ class AttackSprite extends FlxSprite {
     animation.play(name, true);
     visible = true;
     attacking = true;
-    //FlxG.sound.play("assets/sounds/player/attack1.ogg");
+    FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
   }
@@ -109,16 +112,28 @@ class AttackSprite extends FlxSprite {
     if (hitList.indexOf(object) < 0) {
       object.hurt(10);
       hitList.push(object);
+
+      stopTime();
     }
   }
 
+  private function stopTime():Void {
+    FlxG.timeScale = 0;
+    timeFrames = STOP_FRAMES;
+  }
+
   private function onAnimationComplete(animation:String):Void {
-    //visible = false;
+    visible = false;
     attacking = false;
     solid = false;
   }
 
   public override function update(elapsed:Float):Void {
+    timeFrames--;
+    if (timeFrames < 0 && FlxG.timeScale == 0) {
+      FlxG.timeScale = 1;
+    }
+
     super.update(elapsed);
 
     updatePosition();
