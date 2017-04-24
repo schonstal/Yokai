@@ -111,6 +111,11 @@ class AttackSprite extends FlxSprite {
   public function collideWith(object:FlxObject) {
     if (hitList.indexOf(object) < 0) {
       object.hurt(10);
+      if (facing == FlxObject.LEFT) {
+        object.x -= 10;
+      } else {
+        object.x += 10;
+      }
       hitList.push(object);
 
       stopTime();
