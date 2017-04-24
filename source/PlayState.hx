@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxRandom;
+import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -50,7 +51,6 @@ class PlayState extends FlxState {
 
     player.init();
 
-
     add(snow);
     add(background);
     add(player);
@@ -62,6 +62,10 @@ class PlayState extends FlxState {
     add(pointGroup);
     add(hud);
     add(gameOverGroup);
+
+    FlxG.camera.follow(player);
+    FlxG.camera.deadzone = new FlxRect(0, FlxG.height/3, FlxG.width, FlxG.height - FlxG.height/3);
+    FlxG.camera.followLerp = 0.1;
 
     FlxG.debugger.drawDebug = true;
   }
@@ -79,10 +83,6 @@ class PlayState extends FlxState {
     collidePlayerWithProjectiles();
 
     recordHighScores();
-
-    if (FlxG.camera.scroll.y > player.y) {
-      FlxG.camera.scroll.y = player.y;
-    }
   }
 
   private function initializeServices() {
