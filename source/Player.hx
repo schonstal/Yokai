@@ -26,6 +26,8 @@ class Player extends Enemy
 
   public var attackSprite:AttackSprite;
 
+  public var stamina:Float = 100;
+
   var speed:Point;
   var terminalVelocity:Float = 150;
 

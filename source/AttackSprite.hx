@@ -31,6 +31,8 @@ class AttackSprite extends FlxSprite {
       offsetY: 0,
       width: 46,
       height: 28,
+      damage: 10,
+      energy: 5
     },
 
     "attackTwo": {
@@ -45,7 +47,9 @@ class AttackSprite extends FlxSprite {
       y: -9,
       offsetY: 0,
       width: 40,
-      height: 36
+      height: 36,
+      damage: 15,
+      energy: 5
     },
 
     "uppercut": {
@@ -60,7 +64,9 @@ class AttackSprite extends FlxSprite {
       y: 0,
       offsetY: 0,
       width: 46,
-      height: 28
+      height: 28,
+      damage: 25,
+      energy: 30
     }
   };
 
@@ -110,7 +116,7 @@ class AttackSprite extends FlxSprite {
 
   public function collideWith(object:FlxObject) {
     if (hitList.indexOf(object) < 0) {
-      object.hurt(10);
+      object.hurt(currentHitbox.damage);
       if (facing == FlxObject.LEFT) {
         object.x -= 10;
       } else {
