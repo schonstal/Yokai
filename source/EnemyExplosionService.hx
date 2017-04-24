@@ -13,27 +13,27 @@ class EnemyExplosionService {
     this.group = group;
   }
 
-  public function explode(X:Float, Y:Float, width:Float = 0, height:Float = 0, player:Bool = false):EnemyExplosion {
+  public function explode(X:Float, Y:Float, width:Float = 0, height:Float = 0):EnemyExplosion {
     var x = X + Reg.random.float(0, width);
     var y = Y + Reg.random.float(0, height);
 
-    var enemyExplosion = recycle(x, y, player);
+    var enemyExplosion = recycle(x, y);
     group.add(enemyExplosion);
     enemyExplosion.explode();
 
     return enemyExplosion;
   }
 
-  function recycle(X:Float, Y:Float, player:Bool):EnemyExplosion {
+  function recycle(X:Float, Y:Float):EnemyExplosion {
     for(p in enemyExplosions) {
       if(!p.exists) {
-        p.initialize(X, Y, player);
+        p.initialize(X, Y);
         return p;
       }
     }
 
     var enemyExplosion:EnemyExplosion = new EnemyExplosion();
-    enemyExplosion.initialize(X, Y, player);
+    enemyExplosion.initialize(X, Y);
     enemyExplosions.push(enemyExplosion);
 
     return enemyExplosion;

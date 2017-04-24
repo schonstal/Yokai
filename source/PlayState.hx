@@ -17,6 +17,7 @@ class PlayState extends FlxState {
   var enemyGroup:FlxSpriteGroup;
   var enemyExplosionGroup:FlxSpriteGroup;
   var tenguGroup:TenguGroup;
+  var bloodPool:BloodPool;
 
   var pointGroup:FlxSpriteGroup;
   var gameOverGroup:GameOverGroup;
@@ -43,6 +44,7 @@ class PlayState extends FlxState {
     player = new Player();
     hud = new HUD();
     gameOverGroup = new GameOverGroup();
+    bloodPool = new BloodPool();
 
     player.init();
 
@@ -53,6 +55,7 @@ class PlayState extends FlxState {
     add(enemyGroup);
     add(playerProjectileGroup);
     add(enemyProjectileGroup);
+    add(bloodPool);
     add(enemyExplosionGroup);
     add(pointGroup);
     add(hud);
@@ -106,7 +109,6 @@ class PlayState extends FlxState {
     if (player.alive == false) {
       if (!gameOver) {
         FlxG.save.flush();
-        FlxG.sound.music.stop();
         FlxG.timeScale = 0.2;
         new FlxTimer().start(0.1, function(t) {
           gameOverGroup.exists = true;
@@ -147,6 +149,10 @@ class PlayState extends FlxState {
       if (!cast(projectile, Projectile).isDangerous()) return;
       if (cast(player, Player).justHurt) return;
       player.hurt(25);
+    });
+
+    FlxG.overlap(player, bloodPool, function(player:FlxObject, laser:FlxObject):Void {
+      player.hurt(999);
     });
   }
 

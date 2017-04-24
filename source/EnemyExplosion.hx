@@ -11,25 +11,15 @@ class EnemyExplosion extends FlxSprite {
     animation.finishCallback = onAnimationComplete;
   }
 
-  public function initialize(X:Float, Y:Float, player:Null<Bool> = false):Void {
+  public function initialize(X:Float, Y:Float):Void {
     exists = true;
     x = X;
     y = Y;
 
-    if (isPlayer != player) {
-      if (player) {
-        loadGraphic("assets/images/player/explosion.png", true, 64, 64);
-        offset.x = 32;
-        offset.y = 32;
-        animation.add("explode", [0, 0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8], 60, false);
-      } else {
-        loadGraphic("assets/images/enemies/explosion.png", true, 32, 32);
-        offset.x = 16;
-        offset.y = 16;
-        animation.add("explode", [0, 1, 2, 3, 4, 5, 6], 15, false);
-      }
-    }
-    isPlayer = player;
+    loadGraphic("assets/images/enemies/explosion.png", true, 32, 32);
+    offset.x = 16;
+    offset.y = 16;
+    animation.add("explode", [0, 1, 2, 3, 4, 5, 6], 15, false);
   }
 
   public function explode():Void {
