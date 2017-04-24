@@ -17,11 +17,11 @@ class AttackSprite extends FlxSprite {
   var attackHitboxes:Dynamic = {
     "attackOne": {
       left: {
-        x: -2,
+        x: -3,
         offsetX: 0
       },
       right: {
-        x: 4,
+        x: 5,
         offsetX: 15
       },
       y: -9,
@@ -32,14 +32,14 @@ class AttackSprite extends FlxSprite {
 
     "attackTwo": {
       left: {
-        x: 0,
+        x: 9,
         offsetX: 12
       },
       right: {
-        x: 0,
+        x: 4,
         offsetX: 15
       },
-      y: 0,
+      y: -9,
       offsetY: 0,
       width: 40,
       height: 36
