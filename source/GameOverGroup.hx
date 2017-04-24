@@ -19,9 +19,6 @@ class GameOverGroup extends FlxSpriteGroup {
   }
 
   public override function update(elapsed:Float):Void {
-    if (FlxG.keys.justPressed.Q) {
-      FlxG.switchState(new PlayState());
-    }
     super.update(elapsed);
   }
 }

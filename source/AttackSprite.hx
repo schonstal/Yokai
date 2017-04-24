@@ -61,7 +61,7 @@ class AttackSprite extends FlxSprite {
         x: 0,
         offsetX: 15
       },
-      y: 0,
+      y: -9,
       offsetY: 0,
       width: 46,
       height: 28,

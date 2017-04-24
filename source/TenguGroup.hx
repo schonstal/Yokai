@@ -21,7 +21,7 @@ class TenguGroup extends FlxSpriteGroup {
     super.update(elapsed);
 
     if (FlxG.camera.scroll.y < lastCameraScroll) {
-      trySpawningEnemies();
+      //trySpawningEnemies();
     }
 
     lastCameraScroll = FlxG.camera.scroll.y;

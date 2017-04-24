@@ -25,14 +25,12 @@ class TenguEnemy extends Enemy
     x = X;
     y = Y;
     loadGraphic("assets/images/enemies/tengu.png");//, true, 50, 50);
+
     //animation.add("fly", [0], 15, true);
     //animation.play("fly");
 
-    width = 6;
-    height = 12;
-
-    offset.y = 5;
-    offset.x = 6;
+    width = 26;
+    height = 26;
 
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
@@ -50,6 +48,10 @@ class TenguEnemy extends Enemy
     //animation.play("fly");
     exists = true;
     alive = true;
+
+    facing = FlxObject.RIGHT;
+    offset.y = 15;
+    offset.x = 10;
   }
 
   override public function update(elapsed:Float):Void {
@@ -60,8 +62,10 @@ class TenguEnemy extends Enemy
 
     if(velocity.x > 0) {
       facing = FlxObject.RIGHT;
+      offset.x = 10;
     } else {
       facing = FlxObject.LEFT;
+      offset.x = 11;
     }
 
     super.update(elapsed);
