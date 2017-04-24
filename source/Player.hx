@@ -205,7 +205,6 @@ class Player extends Enemy
 
     if (x < 0) x = 0;
     if (x > FlxG.width - width) x = FlxG.width - width;
-    if (y < 0) y = 0;
     if (y > FlxG.height - height) y = FlxG.height - height;
   }
 

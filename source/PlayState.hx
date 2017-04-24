@@ -44,7 +44,16 @@ class PlayState extends FlxState {
     enemyGroup.add(s);
 
     var background = new FlxSprite();
-    background.loadGraphic("assets/images/background.png");
+    background.loadGraphic("assets/images/background2.png");
+    add(background);
+    background = new FlxSprite();
+    background.loadGraphic("assets/images/background2.png");
+    background.y = -240;
+    add(background);
+    background = new FlxSprite();
+    background.loadGraphic("assets/images/background2.png");
+    background.y = -480;
+    add(background);
 
     player = new Player();
     hud = new HUD();
@@ -52,7 +61,7 @@ class PlayState extends FlxState {
 
     player.init();
 
-    add(background);
+
     add(player);
     add(player.attackSprite);
     add(enemyGroup);
@@ -79,6 +88,10 @@ class PlayState extends FlxState {
     collidePlayerWithProjectiles();
 
     recordHighScores();
+
+    if (FlxG.camera.scroll.y > player.y) {
+      FlxG.camera.scroll.y = player.y;
+    }
   }
 
   private function initializeServices() {
