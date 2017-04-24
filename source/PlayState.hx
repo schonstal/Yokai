@@ -20,8 +20,8 @@ class PlayState extends FlxState {
   var gameOverGroup:GameOverGroup;
 
   var player:Player;
-
-  var level:Room;
+  var background:Background;
+  var snow:SnowBackground;
   var hud:HUD;
 
   var gameOver:Bool = false;
@@ -42,15 +42,8 @@ class PlayState extends FlxState {
     var s = new ShootingEnemy(20, 200);
     enemyGroup.add(s);
 
-    var background = new FlxSprite();
-    background.loadGraphic("assets/images/background/walls.png");
-    background.y = FlxG.height - background.height;
-
-    var snowBackground = new SnowBackground();
-    add(snowBackground);
-
-    add(background);
-
+    snow = new SnowBackground();
+    background = new Background();
     player = new Player();
     hud = new HUD();
     gameOverGroup = new GameOverGroup();
@@ -58,6 +51,8 @@ class PlayState extends FlxState {
     player.init();
 
 
+    add(snow);
+    add(background);
     add(player);
     add(player.attackSprite);
     add(enemyGroup);
