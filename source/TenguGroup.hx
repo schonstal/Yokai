@@ -6,13 +6,13 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 
-class BatGroup extends FlxSpriteGroup {
+class TenguGroup extends FlxSpriteGroup {
   var lastCameraScroll:Float = 0;
 
   public function new():Void {
     super();
 
-    var e = new BatEnemy(100, 100);
+    var e = new TenguEnemy(100, 100);
     e.init();
     add(e);
   }
@@ -28,7 +28,7 @@ class BatGroup extends FlxSpriteGroup {
   }
 
   private function trySpawningEnemies():Void {
-    var newEnemy = cast(recycle(BatEnemy), BatEnemy);
+    var newEnemy = cast(recycle(TenguEnemy), TenguEnemy);
     newEnemy.init();
   }
 }

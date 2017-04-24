@@ -38,7 +38,7 @@ class PlayState extends FlxState {
     initializeServices();
 
     enemyGroup = new FlxSpriteGroup();
-    enemyGroup.add(new BatGroup());
+    enemyGroup.add(new TenguGroup());
 
     snow = new SnowBackground();
     background = new Background();

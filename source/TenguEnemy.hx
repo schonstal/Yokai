@@ -14,7 +14,7 @@ import flixel.util.FlxSpriteUtil;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
-class BatEnemy extends Enemy
+class TenguEnemy extends Enemy
 {
   private var sinAmt:Float = 0;
   private var sinOffset:Float = 0;
@@ -24,9 +24,9 @@ class BatEnemy extends Enemy
     super();
     x = X;
     y = Y;
-    loadGraphic("assets/images/enemies/bat.png", true, 22, 18);
-    animation.add("fly", [0,1,2,3,4,5], 15, true);
-    animation.play("fly");
+    loadGraphic("assets/images/enemies/tengu.png");//, true, 50, 50);
+    //animation.add("fly", [0], 15, true);
+    //animation.play("fly");
 
     width = 6;
     height = 12;
@@ -47,7 +47,7 @@ class BatEnemy extends Enemy
     sinAmt = 0;
     sinOffset = 0;
     sinMod = 0;
-    animation.play("fly");
+    //animation.play("fly");
     exists = true;
     alive = true;
   }
