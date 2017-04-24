@@ -43,9 +43,13 @@ class BatEnemy extends Enemy
   }
 
   public function init():Void {
-    health = 100;
+    health = 30;
     sinAmt = 0;
     sinOffset = 0;
+    sinMod = 0;
+    animation.play("fly");
+    exists = true;
+    alive = true;
   }
 
   override public function update(elapsed:Float):Void {

@@ -38,10 +38,7 @@ class PlayState extends FlxState {
     initializeServices();
 
     enemyGroup = new FlxSpriteGroup();
-    var e = new BatEnemy(100, 100);
-    enemyGroup.add(e);
-    var s = new ShootingEnemy(20, 200);
-    enemyGroup.add(s);
+    enemyGroup.add(new BatGroup());
 
     snow = new SnowBackground();
     background = new Background();
@@ -64,7 +61,7 @@ class PlayState extends FlxState {
     add(gameOverGroup);
 
     FlxG.camera.follow(player);
-    FlxG.camera.deadzone = new FlxRect(0, FlxG.height/3, FlxG.width, FlxG.height - FlxG.height/3);
+    FlxG.camera.deadzone = new FlxRect(-20, FlxG.height/3, FlxG.width + 40, FlxG.height - FlxG.height/3);
     FlxG.camera.followLerp = 0.1;
 
     FlxG.debugger.drawDebug = true;
