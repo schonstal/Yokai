@@ -112,6 +112,7 @@ class AttackSprite extends FlxSprite {
     FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
+    Reg.player.stamina -= currentHitbox.energy;
   }
 
   public function collideWith(object:FlxObject) {

@@ -6,10 +6,12 @@ import flixel.group.FlxSpriteGroup;
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import flixel.math.FlxPoint;
+import flixel.addons.display.shapes.FlxShapeBox;
 
 class HUDBar extends FlxSpriteGroup {
   var barBackground:FlxSprite;
   var bar:FlxSprite;
+  var border:FlxShapeBox;
   var currentValue:Float;
   var barColor:Int;
 
@@ -39,6 +41,9 @@ class HUDBar extends FlxSpriteGroup {
     barBackground = new FlxSprite();
     barBackground.makeGraphic(width, height, backgroundColor);
     add(barBackground);
+
+    //border = new FlxShapeBox(1, 1, width - 2, height - 2, { color: 0xffffffff }, 0);
+    //add(border);
 
     bar = new FlxSprite(barBackground.x + 4, barBackground.y + 4);
     bar.makeGraphic(width - 8, height - 10, barColor);
