@@ -35,6 +35,12 @@ class TenguEnemy extends Enemy
     setFacingFlip(FlxObject.LEFT, true, false);
     setFacingFlip(FlxObject.RIGHT, false, false);
 
+    explosionOffset.y = -width/2;
+    explosionOffset.x = -height/2;
+    explosionCount = 4;
+    deathHeight = height;
+    deathWidth = width;
+
     onDeath = function() {
       Reg.player.stamina += 50;
       if (Reg.player.stamina > 100) {
