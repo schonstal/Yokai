@@ -22,7 +22,7 @@ class HUDBar extends FlxSpriteGroup {
   }
 
   function set_value(v:Float):Float {
-    var w:Int = Std.int((barBackground.width - 8) * v/100);
+    var w:Int = Std.int((barBackground.width - 4) * v/100);
     if (w > 0) {
       bar.visible = true;
       bar.makeGraphic(w, Std.int(bar.height), barColor);
@@ -34,16 +34,16 @@ class HUDBar extends FlxSpriteGroup {
     return currentValue;
   }
 
-  public function new(width:Int, height:Int, barColor:Int, backgroundColor:Int = 0xff07102b):Void {
+  public function new(width:Int, height:Int, barColor:Int, backgroundColor:Int = 0xffaa50f6):Void {
     super();
     this.barColor = barColor;
 
     barBackground = new FlxSprite();
-    barBackground.makeGraphic(width, height, backgroundColor);
+    barBackground.loadGraphic("assets/images/stamina.png");
     add(barBackground);
 
     bar = new FlxSprite(barBackground.x + 2, barBackground.y + 2);
-    bar.makeGraphic(width - 4, height - 4, barColor);
+    bar.makeGraphic(width - 2, height - 6, barColor);
     add(bar);
   }
 
