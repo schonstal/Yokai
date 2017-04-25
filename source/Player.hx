@@ -240,6 +240,10 @@ class Player extends Enemy
       computeTerminalVelocity();
     }
 
+    if (-y/10 > Reg.score) {
+      Reg.score = Std.int(-y/10);
+    }
+
     super.update(elapsed);
   }
 
