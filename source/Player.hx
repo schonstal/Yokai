@@ -157,7 +157,7 @@ class Player extends Enemy
     animation.play(attackName, true);
 
     attackSprite.facing = facing;
-    attackSprite.attack(attackName);
+    attackSprite.attack(attackName, combo);
   }
 
   private function tryAttacking():Void {

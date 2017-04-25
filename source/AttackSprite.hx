@@ -16,6 +16,8 @@ class AttackSprite extends FlxSprite {
 
   var timeFrames:Int = 0;
 
+  var combo:Bool = false;
+
   var currentHitbox:Dynamic;
   var attackHitboxes:Dynamic = {
     "attackOne": {
@@ -92,7 +94,7 @@ class AttackSprite extends FlxSprite {
     setFacingFlip(FlxObject.RIGHT, false, false);
   }
 
-  public function attack(name) {
+  public function attack(name:String, isCombo:Bool) {
     currentHitbox = Reflect.field(attackHitboxes, name);
 
     width = currentHitbox.width;
@@ -108,6 +110,7 @@ class AttackSprite extends FlxSprite {
     animation.play(name, true);
     visible = true;
     attacking = true;
+    combo = isCombo;
     FlxG.sound.play("assets/sounds/player/attack1.ogg");
     solid = true;
     hitList.splice(0, hitList.length);
@@ -116,7 +119,7 @@ class AttackSprite extends FlxSprite {
 
   public function collideWith(object:FlxObject) {
     if (hitList.indexOf(object) < 0) {
-      object.hurt(currentHitbox.damage);
+      object.hurt(currentHitbox.damage + (combo ? 5 : 0));
       if (facing == FlxObject.LEFT) {
         object.x -= 10;
       } else {
