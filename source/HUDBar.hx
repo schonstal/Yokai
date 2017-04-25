@@ -22,11 +22,11 @@ class HUDBar extends FlxSpriteGroup {
   }
 
   function set_value(v:Float):Float {
-    var width:Int = Std.int((barBackground.width - 8) * v/100);
-    if (v != currentValue && width > 0) {
-      bar.makeGraphic(width, Std.int(bar.height), barColor);
-      bar.x = barBackground.x + barBackground.width - 2 - bar.width;
-    } else if (width <= 0) {
+    var w:Int = Std.int((barBackground.width - 8) * v/100);
+    if (w > 0) {
+      bar.visible = true;
+      bar.makeGraphic(w, Std.int(bar.height), barColor);
+    } else if (w <= 0) {
       bar.visible = false;
     }
 
