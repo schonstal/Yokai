@@ -8,7 +8,9 @@ import flixel.group.FlxSpriteGroup;
 
 class BloodPool extends FlxSpriteGroup {
   inline static var RISE_SPEED:Float = 20;
+  inline static var MAX_SPEED:Float = 40;
 
+  var riseSpeed:Float = RISE_SPEED;
   var sinAmt:Float = 0;
 
   public function new() {
@@ -35,11 +37,21 @@ class BloodPool extends FlxSpriteGroup {
       bloodSprite.offset.y = 2 * Math.sin(sinAmt + i);
     }
 
+    if (!Reg.started && Reg.player.alive) {
+      super.update(elapsed);
+      return;
+    }
+
+    riseSpeed += elapsed/4;
+    if (riseSpeed >= MAX_SPEED) {
+      riseSpeed = MAX_SPEED;
+    }
+
     if (y > FlxG.camera.scroll.y) {
       y = FlxG.camera.scroll.y;
     }
 
-    y -= RISE_SPEED * elapsed;
+    y -= riseSpeed * elapsed;
 
     if (y < FlxG.camera.scroll.y - FlxG.height) {
       y = FlxG.camera.scroll.y - FlxG.height;

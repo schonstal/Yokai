@@ -25,7 +25,7 @@ class HUDBar extends FlxSpriteGroup {
     var width:Int = Std.int((barBackground.width - 8) * v/100);
     if (v != currentValue && width > 0) {
       bar.makeGraphic(width, Std.int(bar.height), barColor);
-      bar.x = barBackground.x + barBackground.width - 4 - bar.width;
+      bar.x = barBackground.x + barBackground.width - 2 - bar.width;
     } else if (width <= 0) {
       bar.visible = false;
     }
@@ -42,11 +42,8 @@ class HUDBar extends FlxSpriteGroup {
     barBackground.makeGraphic(width, height, backgroundColor);
     add(barBackground);
 
-    //border = new FlxShapeBox(1, 1, width - 2, height - 2, { color: 0xffffffff }, 0);
-    //add(border);
-
-    bar = new FlxSprite(barBackground.x + 4, barBackground.y + 4);
-    bar.makeGraphic(width - 8, height - 10, barColor);
+    bar = new FlxSprite(barBackground.x + 2, barBackground.y + 2);
+    bar.makeGraphic(width - 4, height - 4, barColor);
     add(bar);
   }
 
