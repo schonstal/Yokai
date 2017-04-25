@@ -12,7 +12,7 @@ class TenguGroup extends FlxSpriteGroup {
   public function new():Void {
     super();
 
-    var e = new TenguEnemy(100, 100);
+    var e = new TenguEnemy(40, 140);
     e.init();
     add(e);
   }

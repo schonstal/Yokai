@@ -26,6 +26,7 @@ class PlayState extends FlxState {
   var background:Background;
   var snow:SnowBackground;
   var hud:HUD;
+  var controls:ControlsGroup;
 
   var gameOver:Bool = false;
 
@@ -42,9 +43,10 @@ class PlayState extends FlxState {
     snow = new SnowBackground();
     background = new Background();
     player = new Player();
-    hud = new HUD();
-    gameOverGroup = new GameOverGroup();
     bloodPool = new BloodPool();
+    hud = new HUD();
+    controls = new ControlsGroup();
+    gameOverGroup = new GameOverGroup();
 
     player.init();
 
@@ -59,6 +61,7 @@ class PlayState extends FlxState {
     add(enemyExplosionGroup);
     add(pointGroup);
     add(hud);
+    add(controls);
     add(gameOverGroup);
 
     FlxG.camera.follow(player);
@@ -84,6 +87,9 @@ class PlayState extends FlxState {
     collidePlayerWithProjectiles();
 
     recordHighScores();
+    if (Reg.started) {
+      controls.exists = false;
+    }
   }
 
   private function initializeServices() {
