@@ -38,7 +38,7 @@ class Enemy extends FlxSprite {
   public override function hurt(damage:Float):Void {
     if (!alive) return;
 
-    Reg.pointService.showPoints(x + width/2, y + height/2, Std.int(damage));
+    Reg.pointService.showPoints(x + width/2, y + height/2, Std.int(damage), color);
 
     super.hurt(damage);
     flash();

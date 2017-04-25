@@ -13,7 +13,7 @@ import flixel.util.FlxSpriteUtil;
 class PointText extends FlxSpriteGroup {
   var scoreText:FlxBitmapText;
 
-  public function new(X:Float, Y:Float, amount:Int):Void {
+  public function new(X:Float, Y:Float, amount:Int, color:Int):Void {
     super();
 
     var font = FlxBitmapFont.fromMonospace(
@@ -24,17 +24,18 @@ class PointText extends FlxSpriteGroup {
 
     scoreText = new FlxBitmapText(font);
     scoreText.letterSpacing = -1;
-    initialize(X, Y, amount);
+    initialize(X, Y, amount, color);
     add(scoreText);
   }
 
-  public function initialize(X:Float, Y:Float, amount:Int):Void {
+  public function initialize(X:Float, Y:Float, amount:Int, color:Int):Void {
     exists = true;
 
     scoreText.text = "" + amount;
     scoreText.x = X - scoreText.width/2;
     scoreText.y = Y - 20;
     scoreText.exists = true;
+    scoreText.textColor = color;
 
     scoreText.velocity.y = -30;
     FlxSpriteUtil.flicker(this, 0.3, 0.04, true, true, function(flicker) {
