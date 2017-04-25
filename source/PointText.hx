@@ -36,6 +36,7 @@ class PointText extends FlxSpriteGroup {
     scoreText.y = Y - 20;
     scoreText.exists = true;
     scoreText.textColor = color;
+    scoreText.useTextColor = false;
 
     scoreText.velocity.y = -30;
     FlxSpriteUtil.flicker(this, 0.3, 0.04, true, true, function(flicker) {
