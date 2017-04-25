@@ -12,9 +12,16 @@ class TenguGroup extends FlxSpriteGroup {
   public function new():Void {
     super();
 
-    var e = new TenguEnemy(40, 140);
+    var e = new TenguEnemy();
+    e.y = 20;
     e.init();
     add(e);
+
+    if (Reg.random.float(0, 1) < 0.5) {
+      e.x = 40;
+    } else {
+      e.x = FlxG.width - e.width - 40;
+    }
   }
 
   public override function update(elapsed:Float):Void {
