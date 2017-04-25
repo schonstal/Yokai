@@ -227,7 +227,11 @@ class Player extends Enemy
     }
 
     if (stamina <= 0) {
-      FlxSpriteUtil.flicker(this, 10, 0.04, true, false);
+      useColorTransform = true;
+      setColorTransform(0, 0, 0, 1, 255, 255, 255, 0);
+    } else {
+      useColorTransform = false;
+      setColorTransform();
     }
 
     if (alive && Reg.started) {
